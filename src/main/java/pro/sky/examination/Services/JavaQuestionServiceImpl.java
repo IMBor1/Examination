@@ -1,12 +1,15 @@
 package pro.sky.examination.Services;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.SessionScope;
 import pro.sky.examination.Exceptions.QuestionIsAlreadyCreatedException;
 import pro.sky.examination.Exceptions.QuestionNotFoundException;
 import pro.sky.examination.Interfaces.QuestionService;
 import pro.sky.examination.Question;
 
 import java.util.*;
+
+@SessionScope
 
 @Service
 public class JavaQuestionServiceImpl implements QuestionService {
@@ -18,10 +21,10 @@ public class JavaQuestionServiceImpl implements QuestionService {
 
     @Override
     public Question add(String question, String answer) {
-        if (questions.contains(question)) {
-            throw new QuestionIsAlreadyCreatedException();
-        }
         Question newQuestion = new Question(question, answer);
+        if (questions.contains(newQuestion)) {
+            throw new QuestionIsAlreadyCreatedException("такой вопрос уже существует");
+        }
         questions.add(newQuestion);
         return newQuestion;
     }
@@ -38,13 +41,12 @@ public class JavaQuestionServiceImpl implements QuestionService {
     @Override
     public Question remove(String question, String answer) {
         Question question1 = new Question(question, answer);
-        if (questions.contains(question1.getQuestion()) &&
-                questions.contains((question1.getAnswer()))) {
+        if (questions.contains(question1)) {
 
             questions.remove(question1);
             return question1;
         }
-        throw new QuestionNotFoundException();
+        throw new QuestionNotFoundException("такой вопрос не найден");
     }
 
     @Override
@@ -56,7 +58,7 @@ public class JavaQuestionServiceImpl implements QuestionService {
     @Override
     public Question getRandomQuestion() {
         Random r = new Random();
-        int random = r.nextInt() + questions.size();
+        int random = r.nextInt(questions.size());
         List<Question> list = new ArrayList<>(questions);
         return list.get(random);
 
