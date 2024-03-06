@@ -34,7 +34,8 @@ public class ExaminerServiceImplTest {
         when(mockQuestionService.getAll())
                 .thenReturn(all);
         when(mockQuestionService.getRandomQuestion())
-                .thenReturn(two);
-        assertEquals(4, out.getQuestions(4));
+                .thenReturn(one, two, three, four);
+
+        assertEquals(3, out.getQuestions(3).size());
     }
 }

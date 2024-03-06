@@ -1,21 +1,17 @@
-//package pro.sky.examination.Services;
+//package pro.sky.examination.Repositories;
 //
-//import org.springframework.stereotype.Service;
-//import org.springframework.web.context.annotation.SessionScope;
 //import pro.sky.examination.Exceptions.QuestionIsAlreadyCreatedException;
 //import pro.sky.examination.Exceptions.QuestionNotFoundException;
-//import pro.sky.examination.Interfaces.QuestionService;
+//import pro.sky.examination.Interfaces.QuestionRepository;
 //import pro.sky.examination.Question;
 //
-//import java.util.*;
+//import java.util.HashSet;
+//import java.util.Set;
 //
-//@SessionScope
-//
-//@Service
-//public class MathQuestionService implements QuestionService {
+//public class MathRepository implements QuestionRepository {
 //    private final Set<Question> mathQuestions;
 //
-//    public MathQuestionService(Set<Question> mathQuestions) {
+//    public MathRepository(Set<Question> mathQuestions) {
 //        this.mathQuestions = mathQuestions;
 //    }
 //
@@ -27,15 +23,6 @@
 //        }
 //        mathQuestions.add(newQuestion);
 //        return newQuestion;
-//    }
-//
-//    @Override
-//    public Question add(Question question) {
-//        if (mathQuestions.contains(question)) {
-//            throw new QuestionIsAlreadyCreatedException();
-//        }
-//        mathQuestions.add(question);
-//        return question;
 //    }
 //
 //    @Override
@@ -54,15 +41,4 @@
 //        Set<Question> questionSet = new HashSet<>(mathQuestions);
 //        return questionSet;
 //    }
-//
-//    @Override
-//    public Question getRandomQuestion() {
-//        Random r = new Random();
-//        int random = r.nextInt(mathQuestions.size());
-//        List<Question> list = new ArrayList<>(mathQuestions);
-//        return list.get(random);
-//
-//    }
 //}
-//
-//
