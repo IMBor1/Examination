@@ -1,7 +1,6 @@
 package pro.sky.examination.Services;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.SessionScope;
 import pro.sky.examination.Exceptions.QuestionIsAlreadyCreatedException;
 import pro.sky.examination.Exceptions.QuestionNotFoundException;
 import pro.sky.examination.Interfaces.QuestionService;
@@ -9,7 +8,6 @@ import pro.sky.examination.Question;
 
 import java.util.*;
 
-@SessionScope
 
 @Service
 public class JavaQuestionServiceImpl implements QuestionService {

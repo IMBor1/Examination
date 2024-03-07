@@ -14,7 +14,7 @@ import java.util.Set;
 
 @Service
 public class ExaminerServiceImpl implements ExaminerService {
-    QuestionService questionService;
+    private final QuestionService questionService;
 
     public ExaminerServiceImpl(QuestionService questionService) {
         this.questionService = questionService;
@@ -23,11 +23,12 @@ public class ExaminerServiceImpl implements ExaminerService {
     @Override
     public Set<Question> getQuestions(int amount) {
         Set<Question> setRandom = new HashSet<>();
-        for (int i = 0; i < amount; i++) {
+        if (questionService.getAll().size() < amount) {
+            throw new CollectionFullException();
+        }
+        while (setRandom.size() < amount) {
             setRandom.add(questionService.getRandomQuestion());
-            if (questionService.getAll().size() < amount) {
-                throw new CollectionFullException();
-            }
+
         }
         return setRandom;
     }
