@@ -26,7 +26,7 @@ public class ExaminerServiceImpl implements ExaminerService {
         if (questionService.getAll().size() < amount) {
             throw new CollectionFullException();
         }
-        while (setRandom.size() < amount) {
+        while (setRandom.size() <= amount) {
             setRandom.add(questionService.getRandomQuestion());
 
         }
