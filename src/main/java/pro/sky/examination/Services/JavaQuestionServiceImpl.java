@@ -1,63 +1,55 @@
 package pro.sky.examination.Services;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import pro.sky.examination.Exceptions.QuestionIsAlreadyCreatedException;
-import pro.sky.examination.Exceptions.QuestionNotFoundException;
 import pro.sky.examination.Interfaces.QuestionService;
 import pro.sky.examination.Question;
+import pro.sky.examination.Repositories.JavaRepository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 
 @Service
+@Qualifier
 public class JavaQuestionServiceImpl implements QuestionService {
-    private final Set<Question> questions;
+    private final JavaRepository javaRepository;
 
-    public JavaQuestionServiceImpl(Set<Question> questions) {
-        this.questions = questions;
+    public JavaQuestionServiceImpl(JavaRepository javaRepository) {
+        this.javaRepository = javaRepository;
     }
 
     @Override
     public Question add(String question, String answer) {
-        Question newQuestion = new Question(question, answer);
-        if (questions.contains(newQuestion)) {
-            throw new QuestionIsAlreadyCreatedException("такой вопрос уже существует");
-        }
-        questions.add(newQuestion);
-        return newQuestion;
+        return javaRepository.add(question, answer);
     }
 
-    @Override
-    public Question add(Question question) {
-        if (questions.contains(question)) {
-            throw new QuestionIsAlreadyCreatedException();
-        }
-        questions.add(question);
-        return question;
-    }
+//    @Override
+//    public Question add(Question question) {
+//        if (questions.contains(question)) {
+//            throw new QuestionIsAlreadyCreatedException();
+//        }
+//        questions.add(question);
+//        return question;
+//    }
 
     @Override
     public Question remove(String question, String answer) {
-        Question question1 = new Question(question, answer);
-        if (questions.contains(question1)) {
-
-            questions.remove(question1);
-            return question1;
-        }
-        throw new QuestionNotFoundException("такой вопрос не найден");
+        return javaRepository.remove(question, answer);
     }
 
     @Override
     public Set<Question> getAll() {
-        Set<Question> questionSet = new HashSet<>(questions);
-        return questionSet;
+        return javaRepository.getAll();
     }
 
     @Override
     public Question getRandomQuestion() {
         Random r = new Random();
-        int random = r.nextInt(questions.size());
-        List<Question> list = new ArrayList<>(questions);
+        int random = r.nextInt(javaRepository.getAll().size());
+        List<Question> list = new ArrayList<>(javaRepository.getAll());
         return list.get(random);
 
     }

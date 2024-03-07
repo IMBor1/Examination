@@ -1,34 +1,31 @@
-//package pro.sky.examination.Services;
-//
-//import org.springframework.stereotype.Service;
-//import org.springframework.web.context.annotation.SessionScope;
-//import pro.sky.examination.Exceptions.QuestionIsAlreadyCreatedException;
-//import pro.sky.examination.Exceptions.QuestionNotFoundException;
-//import pro.sky.examination.Interfaces.QuestionService;
-//import pro.sky.examination.Question;
-//
-//import java.util.*;
-//
-//@SessionScope
-//
-//@Service
-//public class MathQuestionService implements QuestionService {
-//    private final Set<Question> mathQuestions;
-//
-//    public MathQuestionService(Set<Question> mathQuestions) {
-//        this.mathQuestions = mathQuestions;
-//    }
-//
-//    @Override
-//    public Question add(String question, String answer) {
-//        Question newQuestion = new Question(question, answer);
-//        if (mathQuestions.contains(newQuestion)) {
-//            throw new QuestionIsAlreadyCreatedException("такой вопрос уже существует");
-//        }
-//        mathQuestions.add(newQuestion);
-//        return newQuestion;
-//    }
-//
+package pro.sky.examination.Services;
+
+import org.springframework.stereotype.Service;
+import pro.sky.examination.Interfaces.QuestionService;
+import pro.sky.examination.Question;
+import pro.sky.examination.Repositories.MathRepository;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+
+
+@Service
+public class MathQuestionService implements QuestionService {
+
+    MathRepository mathRepository;
+
+    public MathQuestionService(MathRepository mathRepository) {
+        this.mathRepository = mathRepository;
+    }
+
+
+    public Question add(String question, String answer) {
+        return mathRepository.add(question, answer);
+
+    }
+
 //    @Override
 //    public Question add(Question question) {
 //        if (mathQuestions.contains(question)) {
@@ -37,32 +34,25 @@
 //        mathQuestions.add(question);
 //        return question;
 //    }
-//
-//    @Override
-//    public Question remove(String question, String answer) {
-//        Question question1 = new Question(question, answer);
-//        if (mathQuestions.contains(question1)) {
-//
-//            mathQuestions.remove(question1);
-//            return question1;
-//        }
-//        throw new QuestionNotFoundException("такой вопрос не найден");
-//    }
-//
-//    @Override
-//    public Set<Question> getAll() {
-//        Set<Question> questionSet = new HashSet<>(mathQuestions);
-//        return questionSet;
-//    }
-//
-//    @Override
-//    public Question getRandomQuestion() {
-//        Random r = new Random();
-//        int random = r.nextInt(mathQuestions.size());
-//        List<Question> list = new ArrayList<>(mathQuestions);
-//        return list.get(random);
-//
-//    }
-//}
-//
-//
+
+    @Override
+    public Question remove(String question, String answer) {
+        return mathRepository.remove(question, answer);
+    }
+
+    @Override
+    public Set<Question> getAll() {
+        return mathRepository.getAll();
+    }
+
+    @Override
+    public Question getRandomQuestion() {
+        Random r = new Random();
+        int random = r.nextInt(mathRepository.getAll().size());
+        List<Question> list = new ArrayList<>(mathRepository.getAll());
+        return list.get(random);
+
+    }
+}
+
+

@@ -10,29 +10,29 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Repository
-public class MathRepository implements QuestionRepository {
-    private final Set<Question> mathQuestions;
+public class JavaRepository implements QuestionRepository {
+    private final Set<Question> javaQuestions;
 
-    public MathRepository(Set<Question> mathQuestions) {
-        this.mathQuestions = mathQuestions;
+    public JavaRepository(Set<Question> javaQuestions) {
+        this.javaQuestions = javaQuestions;
     }
 
     @Override
     public Question add(String question, String answer) {
         Question newQuestion = new Question(question, answer);
-        if (mathQuestions.contains(newQuestion)) {
+        if (javaQuestions.contains(newQuestion)) {
             throw new QuestionIsAlreadyCreatedException("такой вопрос уже существует");
         }
-        mathQuestions.add(newQuestion);
+        javaQuestions.add(newQuestion);
         return newQuestion;
     }
 
     @Override
     public Question remove(String question, String answer) {
         Question question1 = new Question(question, answer);
-        if (mathQuestions.contains(question1)) {
+        if (javaQuestions.contains(question1)) {
 
-            mathQuestions.remove(question1);
+            javaQuestions.remove(question1);
             return question1;
         }
         throw new QuestionNotFoundException("такой вопрос не найден");
@@ -40,7 +40,7 @@ public class MathRepository implements QuestionRepository {
 
     @Override
     public Set<Question> getAll() {
-        Set<Question> questionSet = new HashSet<>(mathQuestions);
+        Set<Question> questionSet = new HashSet<>(javaQuestions);
         return questionSet;
     }
 }
