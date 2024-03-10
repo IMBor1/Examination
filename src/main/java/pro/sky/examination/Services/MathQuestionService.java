@@ -1,6 +1,7 @@
 package pro.sky.examination.Services;
 
 import org.springframework.stereotype.Service;
+import pro.sky.examination.Interfaces.QuestionRepository;
 import pro.sky.examination.Interfaces.QuestionService;
 import pro.sky.examination.Question;
 import pro.sky.examination.Repositories.MathRepository;
@@ -14,15 +15,15 @@ import java.util.Set;
 @Service
 public class MathQuestionService implements QuestionService {
 
-    MathRepository mathRepository;
+    QuestionRepository questionRepository;
 
-    public MathQuestionService(MathRepository mathRepository) {
-        this.mathRepository = mathRepository;
+    public MathQuestionService(MathRepository questionRepository) {
+        this.questionRepository = questionRepository;
     }
 
 
     public Question add(String question, String answer) {
-        return mathRepository.add(question, answer);
+        return questionRepository.addQuestion(question, answer);
 
     }
 
@@ -37,19 +38,19 @@ public class MathQuestionService implements QuestionService {
 
     @Override
     public Question remove(String question, String answer) {
-        return mathRepository.remove(question, answer);
+        return questionRepository.remove(question, answer);
     }
 
     @Override
     public Set<Question> getAll() {
-        return mathRepository.getAll();
+        return (Set<Question>) questionRepository.all();
     }
 
     @Override
     public Question getRandomQuestion() {
         Random r = new Random();
-        int random = r.nextInt(mathRepository.getAll().size());
-        List<Question> list = new ArrayList<>(mathRepository.getAll());
+        int random = r.nextInt(questionRepository.all().size());
+        List<Question> list = new ArrayList<>(questionRepository.all());
         return list.get(random);
 
     }

@@ -11,14 +11,11 @@ import java.util.Set;
 
 @Repository
 public class MathRepository implements QuestionRepository {
-    private final Set<Question> mathQuestions;
+    private final Set<Question> mathQuestions = new HashSet<>();
 
-    public MathRepository(Set<Question> mathQuestions) {
-        this.mathQuestions = mathQuestions;
-    }
 
     @Override
-    public Question add(String question, String answer) {
+    public Question addQuestion(String question, String answer) {
         Question newQuestion = new Question(question, answer);
         if (mathQuestions.contains(newQuestion)) {
             throw new QuestionIsAlreadyCreatedException("такой вопрос уже существует");
@@ -39,7 +36,7 @@ public class MathRepository implements QuestionRepository {
     }
 
     @Override
-    public Set<Question> getAll() {
+    public Set<Question> all() {
         Set<Question> questionSet = new HashSet<>(mathQuestions);
         return questionSet;
     }

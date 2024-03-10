@@ -1,7 +1,7 @@
 package pro.sky.examination.Services;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import pro.sky.examination.Interfaces.QuestionRepository;
 import pro.sky.examination.Interfaces.QuestionService;
 import pro.sky.examination.Question;
 import pro.sky.examination.Repositories.JavaRepository;
@@ -13,17 +13,18 @@ import java.util.Set;
 
 
 @Service
-@Qualifier
-public class JavaQuestionServiceImpl implements QuestionService {
-    private final JavaRepository javaRepository;
 
-    public JavaQuestionServiceImpl(JavaRepository javaRepository) {
-        this.javaRepository = javaRepository;
+public class JavaQuestionServiceImpl implements QuestionService {
+
+    private final QuestionRepository questionRepository;
+
+    public JavaQuestionServiceImpl(JavaRepository questionRepository) {
+        this.questionRepository = questionRepository;
     }
 
     @Override
     public Question add(String question, String answer) {
-        return javaRepository.add(question, answer);
+        return questionRepository.addQuestion(question, answer);
     }
 
 //    @Override
@@ -37,19 +38,19 @@ public class JavaQuestionServiceImpl implements QuestionService {
 
     @Override
     public Question remove(String question, String answer) {
-        return javaRepository.remove(question, answer);
+        return questionRepository.remove(question, answer);
     }
 
     @Override
     public Set<Question> getAll() {
-        return javaRepository.getAll();
+        return questionRepository.all();
     }
 
     @Override
     public Question getRandomQuestion() {
         Random r = new Random();
-        int random = r.nextInt(javaRepository.getAll().size());
-        List<Question> list = new ArrayList<>(javaRepository.getAll());
+        int random = r.nextInt(questionRepository.all().size());
+        List<Question> list = new ArrayList<>(questionRepository.all());
         return list.get(random);
 
     }

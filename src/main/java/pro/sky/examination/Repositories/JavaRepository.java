@@ -10,15 +10,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Repository
-public class JavaRepository implements QuestionRepository {
-    private final Set<Question> javaQuestions;
 
-    public JavaRepository(Set<Question> javaQuestions) {
-        this.javaQuestions = javaQuestions;
-    }
+public class JavaRepository implements QuestionRepository {
+
+    private final Set<Question> javaQuestions = new HashSet<>();
+
+
 
     @Override
-    public Question add(String question, String answer) {
+    public Question addQuestion(String question, String answer) {
         Question newQuestion = new Question(question, answer);
         if (javaQuestions.contains(newQuestion)) {
             throw new QuestionIsAlreadyCreatedException("такой вопрос уже существует");
@@ -39,7 +39,7 @@ public class JavaRepository implements QuestionRepository {
     }
 
     @Override
-    public Set<Question> getAll() {
+    public Set<Question> all() {
         Set<Question> questionSet = new HashSet<>(javaQuestions);
         return questionSet;
     }
