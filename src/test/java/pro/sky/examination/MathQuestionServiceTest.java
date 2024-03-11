@@ -7,8 +7,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pro.sky.examination.Exceptions.QuestionIsAlreadyCreatedException;
 import pro.sky.examination.Exceptions.QuestionNotFoundException;
-import pro.sky.examination.Repositories.JavaRepository;
-import pro.sky.examination.Services.JavaQuestionServiceImpl;
+import pro.sky.examination.Repositories.MathRepository;
+import pro.sky.examination.Services.MathQuestionService;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,11 +18,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class JavaQuestionServiceImplTest {
+public class MathQuestionServiceTest {
     @Mock
-    private JavaRepository mockjavaRepository;
+    private MathRepository mockMathRepository;
     @InjectMocks
-    private JavaQuestionServiceImpl out;
+    private MathQuestionService out;
     Question oneQuestion = new Question("q1", "a1");
     Question twoQuestion = new Question("q2", "a2");
     Question threeQuestion = new Question("q3", "a3");
@@ -31,7 +31,7 @@ public class JavaQuestionServiceImplTest {
 
     @Test
     void addNewQuestion() {
-        when(mockjavaRepository.addQuestion("q1", "a1"))
+        when(mockMathRepository.addQuestion("q1", "a1"))
                 .thenReturn(oneQuestion);
         assertEquals(oneQuestion, out.add("q1", "a1"));
     }
@@ -39,20 +39,19 @@ public class JavaQuestionServiceImplTest {
 
     @Test
     void addWhenQuestionCreated() {
-        when(mockjavaRepository.addQuestion("q1", "a1"))
+        when(mockMathRepository.addQuestion("q1", "a1"))
                 .thenThrow(QuestionIsAlreadyCreatedException.class);
-        //Question result = out.add("How old are you?", "30");
         assertThrows(QuestionIsAlreadyCreatedException.class,
                 () -> out.add("q1", "a1"));
     }
 
     @Test
     void removeQuestion() {
-        mockjavaRepository.addQuestion("q1", "a1");
-        when(mockjavaRepository.remove("q1", "a1"))
+        mockMathRepository.addQuestion("q1", "a1");
+        when(mockMathRepository.remove("q1", "a1"))
                 .thenReturn(oneQuestion);
         assertEquals(oneQuestion, out.remove("q1", "a1"));
-        when(mockjavaRepository.remove("q1", "a1"))
+        when(mockMathRepository.remove("q1", "a1"))
                 .thenThrow(QuestionNotFoundException.class);
         assertThrows(QuestionNotFoundException.class,
                 () -> out.remove("q1", "a1"));
@@ -60,7 +59,7 @@ public class JavaQuestionServiceImplTest {
 
     @Test
     void getAllTest() {
-        when(mockjavaRepository.all())
+        when(mockMathRepository.all())
                 .thenReturn(allQuestions);
         out.add("q1", "a1");
         out.add("q2", "a2");
