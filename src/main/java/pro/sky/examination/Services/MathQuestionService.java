@@ -1,13 +1,10 @@
 package pro.sky.examination.Services;
 
 import org.springframework.stereotype.Service;
-import pro.sky.examination.Interfaces.QuestionRepository;
+import pro.sky.examination.Exceptions.NoMathQuestionsException;
 import pro.sky.examination.Interfaces.QuestionService;
 import pro.sky.examination.Question;
-import pro.sky.examination.Repositories.MathRepository;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -15,15 +12,10 @@ import java.util.Set;
 @Service
 public class MathQuestionService implements QuestionService {
 
-    QuestionRepository questionRepository;
 
-    public MathQuestionService(MathRepository questionRepository) {
-        this.questionRepository = questionRepository;
-    }
-
-
+    @Override
     public Question add(String question, String answer) {
-        return questionRepository.addQuestion(question, answer);
+        throw new NoMathQuestionsException();
 
     }
 
@@ -38,21 +30,32 @@ public class MathQuestionService implements QuestionService {
 
     @Override
     public Question remove(String question, String answer) {
-        return questionRepository.remove(question, answer);
+        throw new NoMathQuestionsException();
     }
 
     @Override
     public Set<Question> getAll() {
-        return (Set<Question>) questionRepository.all();
+        throw new NoMathQuestionsException();
     }
 
     @Override
     public Question getRandomQuestion() {
         Random r = new Random();
-        int random = r.nextInt(questionRepository.all().size());
-        List<Question> list = new ArrayList<>(questionRepository.all());
-        return list.get(random);
+        int randomOperation = r.nextInt(4);
+        int a = r.nextInt(10);
+        int b = r.nextInt(10);
+        switch (randomOperation) {
+            case 0:
+                return new Question(a + " + " + b, String.valueOf(a + b));
+            case 1:
+                return new Question(a + " - " + b, String.valueOf(a - b));
+            case 2:
+                return new Question(a + " * " + b, String.valueOf(a * b));
+            case 3:
+                return new Question(a + " / " + b, String.valueOf(a / b));
+        }
 
+        throw new IllegalArgumentException();
     }
 }
 
