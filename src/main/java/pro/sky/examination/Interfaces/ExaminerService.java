@@ -2,8 +2,8 @@ package pro.sky.examination.Interfaces;
 
 import pro.sky.examination.Question;
 
-import java.util.Set;
+import java.util.Collection;
 
 public interface ExaminerService {
-    Set<Question> getQuestions(int amount);
+    Collection<Question> getQuestions(int amount);
 }
